@@ -128,7 +128,7 @@ def process_image():
         messagebox.showerror("Error", str(e))
 
 
-# GUI setup
+
 root = tk.Tk()
 root.title("Рофло Фильтр фото в ASCII")
 
