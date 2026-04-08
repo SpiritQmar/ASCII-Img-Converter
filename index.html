@@ -3,59 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII Image Converter</title>
+    <title>ASCII Converter</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>🎨 ASCII Image Converter</h1>
-        
+        <div class="header">
+            <h1>ASCII Converter</h1>
+        </div>
+
         <div class="upload-section">
             <div class="upload-area" id="uploadArea">
                 <input type="file" id="fileInput" accept="image/*" hidden>
-                <div class="upload-icon">📁</div>
-                <div class="upload-text">Перетащите изображение или нажмите для выбора</div>
+                <div class="upload-icon">+</div>
+                <div class="upload-text">Выберите изображение</div>
             </div>
             <canvas id="canvas" hidden></canvas>
         </div>
 
-        <div class="controls">
-            <div class="control-group">
-                <label for="styleSelect">Стиль:</label>
-                <select id="styleSelect">
-                    <option value="classic">Classic</option>
-                    <option value="heart">Heart ❤️</option>
-                    <option value="deadinside">Deadinside ZXC</option>
-                </select>
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="panel">
+                    <h3>Основные</h3>
+                    <div class="control-group">
+                        <label>Стиль:</label>
+                        <select id="styleSelect"></select>
+                        <button class="btn-small" id="editStyleBtn">Редактировать</button>
+                    </div>
+
+                    <div class="control-group">
+                        <label>Ширина: <span id="widthValue">100</span></label>
+                        <input type="range" id="widthSlider" min="30" max="200" value="100">
+                    </div>
+
+                    <div class="control-group">
+                        <label>Глитч: <span id="glitchValue">0</span>%</label>
+                        <input type="range" id="glitchSlider" min="0" max="10" value="0">
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="colorMode"> Цветной режим
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="gradientMode"> Градиент
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="highlightStyle"> Подсветить символы
+                        </label>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>ASCII символы</h3>
+                    <div class="control-group">
+                        <label>Набор:</label>
+                        <select id="charsetSelect">
+                            <option value="blocks">Блоки</option>
+                            <option value="detailed">Детальный</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Фильтры</h3>
+                    <div class="control-group">
+                        <label>Яркость: <span id="brightnessValue">0</span></label>
+                        <input type="range" id="brightnessSlider" min="-100" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label>Контраст: <span id="contrastValue">0</span></label>
+                        <input type="range" id="contrastSlider" min="-100" max="100" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label>Размытие: <span id="blurValue">0</span></label>
+                        <input type="range" id="blurSlider" min="0" max="10" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label>Гамма: <span id="gammaValue">1.0</span></label>
+                        <input type="range" id="gammaSlider" min="10" max="30" value="10">
+                    </div>
+                    <div class="control-group">
+                        <label>Порог: <span id="thresholdValue">0</span></label>
+                        <input type="range" id="thresholdSlider" min="0" max="255" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="edgeDetect"> Edge Detection
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label>
+                            <input type="checkbox" id="ditherMode"> Дизеринг
+                        </label>
+                    </div>
+                    <div class="control-group">
+                        <label>Инверсия:</label>
+                        <input type="checkbox" id="invertFilter"> Инвертировать
+                    </div>
+                    <div class="control-group">
+                        <button class="btn-reset" id="resetFiltersBtn">Сбросить</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Рамка</h3>
+                    <div class="control-group">
+                        <label>Тип:</label>
+                        <select id="borderSelect">
+                            <option value="solid">Сплошная</option>
+                            <option value="double">Двойная</option>
+                            <option value="dashed">Пунктир</option>
+                            <option value="rounded">Скруглённая</option>
+                            <option value="none">Без рамки</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="copyBtn" disabled>Копировать</button>
+                    <button id="downloadBtn" disabled>TXT</button>
+                    <button id="downloadHtmlBtn" disabled>HTML</button>
+                </div>
             </div>
 
-            <div class="control-group">
-                <label for="widthSlider">Ширина: <span id="widthValue">150</span></label>
-                <input type="range" id="widthSlider" min="50" max="300" value="150">
-            </div>
-
-            <div class="control-group">
-                <label for="glitchSlider">Глитч-эффект: <span id="glitchValue">0</span>%</label>
-                <input type="range" id="glitchSlider" min="0" max="20" value="0">
-            </div>
-        </div>
-
-        <div class="actions">
-            <button id="convertBtn" disabled>Конвертировать</button>
-            <button id="copyBtn" disabled>📋 Копировать</button>
-            <button id="downloadBtn" disabled>💾 Скачать .txt</button>
-            <button id="downloadHtmlBtn" disabled>🌐 Скачать .html</button>
-        </div>
-
-        <div class="output-section">
-            <h2>Результат:</h2>
-            <div id="output" class="output-container">
-                <div class="placeholder">Здесь появится ASCII-арт</div>
+            <div class="output-section">
+                <div class="output-header">
+                    <h2>Результат</h2>
+                    <div class="output-info" id="outputInfo"></div>
+                    <div class="output-actions">
+                        <button class="zoom-btn" id="fullscreenBtn">[ ]</button>
+                    </div>
+                </div>
+                <div class="progress-container" id="progressContainer" hidden>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Обработка...</div>
+                </div>
+                <div id="output" class="output-container">
+                    <div class="welcome">
+                        <div class="welcome-ascii">
+                            <div class="ascii-line">&#x2554;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2557;</div>
+                            <div class="ascii-line">&#x2551;  ASCII   IMAGE   CONVERTER &#x2551;</div>
+                            <div class="ascii-line">&#x255A;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255D;</div>
+                        </div>
+                        <h2 class="welcome-title">&#x041A;&#x043E;&#x043D;&#x0432;&#x0435;&#x0440;&#x0442;&#x0430;&#x0446;&#x0438;&#x044F; &#x0438;&#x0437;&#x043E;&#x0431;&#x0440;&#x0430;&#x0436;&#x0435;&#x043D;&#x0438;&#x0439; &#x0432; ASCII-&#x0430;&#x0440;&#x0442;</h2>
+                        <div class="welcome-features">
+                            <div class="feature">
+                                <span class="feature-num">1</span>
+                                &#x0417;&#x0430;&#x0433;&#x0440;&#x0443;&#x0437;&#x0438;&#x0442;&#x0435; &#x0438;&#x0437;&#x043E;&#x0431;&#x0440;&#x0430;&#x0436;&#x0435;&#x043D;&#x0438;&#x0435;
+                            </div>
+                            <div class="feature">
+                                <span class="feature-num">2</span>
+                                &#x041D;&#x0430;&#x0441;&#x0442;&#x0440;&#x043E;&#x0439;&#x0442;&#x0435; &#x0441;&#x0442;&#x0438;&#x043B;&#x044C; &#x0438; &#x0444;&#x0438;&#x043B;&#x044C;&#x0442;&#x0440;&#x044B;
+                            </div>
+                            <div class="feature">
+                                <span class="feature-num">3</span>
+                                &#x041F;&#x043E;&#x043B;&#x0443;&#x0447;&#x0438;&#x0442;&#x0435; ASCII-&#x0430;&#x0440;&#x0442;
+                            </div>
+                        </div>
+                        <div class="welcome-hint">&#x041F;&#x0435;&#x0440;&#x0435;&#x0442;&#x0430;&#x0449;&#x0438;&#x0442;&#x0435; &#x0444;&#x0430;&#x0439;&#x043B; &#x0438;&#x043B;&#x0438; &#x043D;&#x0430;&#x0436;&#x043C;&#x0438;&#x0442;&#x0435; &#x043D;&#x0430; &#x043E;&#x0431;&#x043B;&#x0430;&#x0441;&#x0442;&#x044C; &#x0437;&#x0430;&#x0433;&#x0440;&#x0443;&#x0437;&#x043A;&#x0438;</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/@chenglou/pretext@1.0.0/dist/pretext.umd.js"></script>
+    <div class="modal" id="styleModal" hidden>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>&#x0420;&#x0435;&#x0434;&#x0430;&#x043A;&#x0442;&#x043E;&#x0440; &#x0441;&#x0442;&#x0438;&#x043B;&#x044F;</h2>
+                <button class="modal-close" id="modalClose">&#x2715;</button>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label>&#x041D;&#x0430;&#x0437;&#x0432;&#x0430;&#x043D;&#x0438;&#x0435;:</label>
+                    <input type="text" id="styleName" placeholder="&#x041C;&#x043E;&#x0439; &#x0441;&#x0442;&#x0438;&#x043B;&#x044C;">
+                </div>
+                <div class="control-group">
+                    <label>&#x0421;&#x0438;&#x043C;&#x0432;&#x043E;&#x043B; &#x0440;&#x0430;&#x043C;&#x043A;&#x0438;:</label>
+                    <input type="text" id="styleBorder" placeholder="#" maxlength="3">
+                </div>
+                <div class="control-group">
+                    <label>&#x0424;&#x043E;&#x043D; (hex):</label>
+                    <input type="color" id="styleBg" value="#1e1e1e">
+                </div>
+                <div class="control-group">
+                    <label>&#x0422;&#x0435;&#x043A;&#x0441;&#x0442; (hex):</label>
+                    <input type="color" id="styleText" value="#d4d4d4">
+                </div>
+                <div class="control-group">
+                    <label>&#x0413;&#x043B;&#x0438;&#x0442;&#x0447;-&#x0444;&#x0440;&#x0430;&#x0437;&#x044B; (&#x0447;&#x0435;&#x0440;&#x0435;&#x0437; &#x0437;&#x0430;&#x043F;&#x044F;&#x0442;&#x0443;&#x044E;):</label>
+                    <input type="text" id="styleGlitch" placeholder="ZXC, 1000-7">
+                </div>
+                <div class="modal-actions">
+                    <button id="saveStyleBtn">&#x0421;&#x043E;&#x0445;&#x0440;&#x0430;&#x043D;&#x0438;&#x0442;&#x044C;</button>
+                    <button id="deleteStyleBtn" class="btn-danger">&#x0423;&#x0434;&#x0430;&#x043B;&#x0438;&#x0442;&#x044C;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fullscreen-overlay" id="fullscreenOverlay" hidden>
+        <div class="fullscreen-header">
+            <span id="fullscreenTitle">ASCII Art</span>
+            <button id="closeFullscreenBtn">&#x2715;</button>
+        </div>
+        <div class="fullscreen-content" id="fullscreenContent"></div>
+    </div>
+
+    <div id="toastContainer"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
