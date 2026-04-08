@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Image Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 ASCII Image Converter</h1>
+        
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="fileInput" accept="image/*" hidden>
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Перетащите изображение или нажмите для выбора</div>
+            </div>
+            <canvas id="canvas" hidden></canvas>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="styleSelect">Стиль:</label>
+                <select id="styleSelect">
+                    <option value="classic">Classic</option>
+                    <option value="heart">Heart ❤️</option>
+                    <option value="deadinside">Deadinside ZXC</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="widthSlider">Ширина: <span id="widthValue">150</span></label>
+                <input type="range" id="widthSlider" min="50" max="300" value="150">
+            </div>
+
+            <div class="control-group">
+                <label for="glitchSlider">Глитч-эффект: <span id="glitchValue">0</span>%</label>
+                <input type="range" id="glitchSlider" min="0" max="20" value="0">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="convertBtn" disabled>Конвертировать</button>
+            <button id="copyBtn" disabled>📋 Копировать</button>
+            <button id="downloadBtn" disabled>💾 Скачать .txt</button>
+            <button id="downloadHtmlBtn" disabled>🌐 Скачать .html</button>
+        </div>
+
+        <div class="output-section">
+            <h2>Результат:</h2>
+            <div id="output" class="output-container">
+                <div class="placeholder">Здесь появится ASCII-арт</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@chenglou/pretext@1.0.0/dist/pretext.umd.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
